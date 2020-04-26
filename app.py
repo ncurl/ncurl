@@ -1,6 +1,8 @@
 import shlex
 import subprocess
 import json
+import sys
+
 from pygments import highlight
 from pygments.lexers.javascript import JavascriptLexer
 from pygments.lexers.shell import BashLexer
@@ -8,9 +10,7 @@ from pygments.formatters.terminal import TerminalFormatter
 
 
 def do_curl():
-    curl_text = input(">> ")
-
-    command = ['curl', '-i'] + shlex.split(curl_text)[1:]
+    command = ['curl', '-i'] + sys.argv[1:]
 
     process = subprocess.Popen(command,
                                stdout=subprocess.PIPE,
@@ -26,8 +26,7 @@ def do_curl():
 
 
 def main():
-    while True:
-        do_curl()
+    do_curl()
 
 
 if __name__ == '__main__':
