@@ -19,7 +19,8 @@ def curl_command_to_response(command) -> Response:
     """
     context = uncurl.parse_context(shlex.join(command))
     data = context.data.encode('utf-8') if context.data else None
-    return request(method=context.method, url=context.url, headers=context.headers, data=data)
+    return request(method=context.method, url=context.url, headers=context.headers, data=data,
+                   cookies=dict(context.cookies), verify=context.verify)
 
 
 def response_to_head_str(response: Response) -> str:
