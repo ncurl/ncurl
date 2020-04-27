@@ -11,4 +11,4 @@ def curl_command_to_response(command) -> Response:
     :return: Request
     """
     context = uncurl.parse_context(shlex.join(command))
-    return request(method=context.method, url=context.url, headers=context.headers, data=context.data)
+    return request(method=context.method, url=context.url, headers=context.headers, data=context.data.encode('utf-8'))

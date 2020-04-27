@@ -1,1 +1,4 @@
 Pygments~=2.6.1
+uncurl~=0.0.10
+requests~=2.23.0
+setuptools~=46.1.3
