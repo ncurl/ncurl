@@ -5,10 +5,9 @@ import sys
 
 from pygments import highlight
 from pygments.lexers.javascript import JavascriptLexer
-from pygments.lexers.shell import BashLexer
 from pygments.formatters.terminal import TerminalFormatter
 
-from src.curl_utils import curl_command_to_response
+from ncurl.curl_utils import curl_command_to_response
 
 
 def do_curl():

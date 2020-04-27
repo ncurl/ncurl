@@ -1,23 +1,21 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='nb-curl',
-    version='0.1.3',
-    keywords=('utils',),
+    name='ncurl',
+    version='0.2.1',
+    keywords=('utils', 'curl',),
     description='Next generation of curl',
     license='MIT License',
-    install_requires=[],
-    package_data={
-        "app": []
-    },
+    install_requires=['Pygments', 'uncurl', 'requests', 'setuptools'],
+    include_package_data=True,
+    zip_safe=True,
     author='bohan',
     author_email='bohanzhang@foxmail.com',
     entry_points={
         'console_scripts': [
-            'nb-curl = app:main'
+            'ncurl = ncurl.app:main'
         ],
     },
 
     packages=find_packages(),
-    scripts=['app.py'],
 )
