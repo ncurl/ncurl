@@ -1,5 +1,5 @@
-import shlex
-import subprocess
+#!/usr/bin/env python
+
 import json
 import sys
 
@@ -8,20 +8,17 @@ from pygments.lexers.javascript import JavascriptLexer
 from pygments.lexers.shell import BashLexer
 from pygments.formatters.terminal import TerminalFormatter
 
+from src.curl_utils import curl_command_to_response
+
 
 def do_curl():
-    command = ['curl', '-i'] + sys.argv[1:]
+    command = ['curl'] + sys.argv[1:]
 
-    process = subprocess.Popen(command,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    headers = stdout[:stdout.index(b"{")]
-    json_data = stdout[stdout.index(b"{"):]
-    d = json.loads(json_data)
-    headers_result = highlight(headers.decode(), BashLexer(), TerminalFormatter())
-    result = highlight(json.dumps(d, indent=4), JavascriptLexer(), TerminalFormatter())
-    print(headers_result)
+    response = curl_command_to_response(command)
+    result = response.json()
+    # headers_result = highlight(json.dumps(response.headers, indent=4), BashLexer(), TerminalFormatter())
+    result = highlight(json.dumps(result, indent=4), JavascriptLexer(), TerminalFormatter())
+    # print(headers_result)
     print(result)
 
 
