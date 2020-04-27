@@ -6,6 +6,7 @@ from pygments import highlight
 from pygments.formatters.terminal import TerminalFormatter
 from pygments.lexers.javascript import JavascriptLexer
 from pygments.lexers.text import TexLexer
+from pygments.lexers.html import HtmlLexer
 from pygments.lexers.shell import BashLexer
 from requests import Response, request
 
@@ -39,10 +40,15 @@ def print_response(response: Response) -> None:
     headers_result = highlight(head_str, BashLexer(), TerminalFormatter())
     print(headers_result)
 
+    result = None
     try:
-        result = highlight(json.dumps(response.json(), indent=4, sort_keys=True), JavascriptLexer(),
-                           TerminalFormatter())
-        print(result)
+        content_type = response.headers.get("Content-Type")
+        if content_type.startswith("application/json"):
+            result = highlight(json.dumps(response.json(), indent=4, sort_keys=True), JavascriptLexer(),
+                               TerminalFormatter())
+        elif content_type.startswith("text/html"):
+            result = highlight(response.content.decode("utf-8"), HtmlLexer(),
+                               TerminalFormatter())
     except ValueError:
         result = highlight(response.content.decode("utf-8"), TexLexer(), TerminalFormatter())
-        print(result)
+    print(result)
