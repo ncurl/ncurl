@@ -3,13 +3,14 @@
 import sys
 
 
-from ncurl.utils import curl_command_to_response, print_response
+from ncurl.utils import request_by_context, print_response, curl_command_to_context
 
 
 def do_curl():
     command = ['curl'] + sys.argv[1:]
-
-    response = curl_command_to_response(command)
+    context = curl_command_to_context(command)
+    response = request_by_context(context)
+    # FIXME upload command context and response to server
     print_response(response)
 
 

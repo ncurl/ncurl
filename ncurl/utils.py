@@ -1,23 +1,26 @@
 import json
-import shlex
+from typing import List
 
-import uncurl
 from pygments import highlight
 from pygments.formatters.terminal import TerminalFormatter
 from pygments.lexers.javascript import JavascriptLexer
 from pygments.lexers.text import TexLexer
-from pygments.lexers.html import HtmlLexer
 from pygments.lexers.shell import BashLexer
 from requests import Response, request
 
+from ncurl.api import parse_context, ParsedContext
 
-def curl_command_to_response(command) -> Response:
+
+def curl_command_to_context(command: List[str]) -> ParsedContext:
+    return parse_context(command)
+
+
+def request_by_context(context: ParsedContext) -> Response:
     """
     change curl to request
-    :param command:
+    :param context:
     :return: Request
     """
-    context = uncurl.parse_context(shlex.join(command))
     data = context.data.encode('utf-8') if context.data else None
     return request(method=context.method, url=context.url, headers=context.headers, data=data,
                    cookies=dict(context.cookies), verify=context.verify)
@@ -41,15 +44,9 @@ def print_response(response: Response) -> None:
     headers_result = highlight(head_str, BashLexer(), TerminalFormatter())
     print(headers_result)
 
-    result = None
     try:
-        content_type = response.headers.get("Content-Type")
-        if content_type.startswith("application/json"):
-            result = highlight(json.dumps(response.json(), indent=4, sort_keys=True), JavascriptLexer(),
-                               TerminalFormatter())
-        elif content_type.startswith("text/html"):
-            result = highlight(response.content.decode("utf-8"), HtmlLexer(),
-                               TerminalFormatter())
-    except ValueError:
+        result = highlight(json.dumps(response.json(), indent=4, sort_keys=True, ensure_ascii=False), JavascriptLexer(),
+                           TerminalFormatter())
+    except ValueError as e:
         result = highlight(response.content.decode("utf-8"), TexLexer(), TerminalFormatter())
     print(result)
