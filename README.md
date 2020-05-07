@@ -1,9 +1,18 @@
 # NB cURL
 
-## install
+## Install
+
+### Mac
 
 ```
-pip install ncurl
+$ brew tap ncurl/ncurl
+$ brew install ncurl
+```
+
+### by PYPI
+
+```shell
+$ pip install ncurl
 ```
 
 ## Usage
