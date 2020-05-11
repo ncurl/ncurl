@@ -9,10 +9,11 @@ parser.add_argument('command')
 parser.add_argument('url')
 parser.add_argument('-d', '--data')
 parser.add_argument('-b', '--data-binary', default=None)
-parser.add_argument('-X', default='')
+parser.add_argument('-X', '--request', default='')
 parser.add_argument('-H', '--header', action='append', default=[])
 parser.add_argument('--compressed', action='store_true')
 parser.add_argument('--insecure', action='store_true')
+parser.add_argument('-L', '--location', action='store_true')
 
 BASE_INDENT = " " * 4
 
@@ -28,7 +29,7 @@ def parse_context(tokens):
     if post_data:
         method = 'post'
 
-    if parsed_args.X:
+    if 'X' in parsed_args:
         method = parsed_args.X.lower()
 
     cookie_dict = OrderedDict()
