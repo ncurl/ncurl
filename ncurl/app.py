@@ -1,25 +1,35 @@
+import shlex
+import subprocess
 #!/usr/bin/env python
+
+import json
 import sys
 
-import requests
-
-from ncurl.utils import request_by_context, print_response, curl_command_to_context
-
-server_url = 'https://ncurl-server.herokuapp.com/api'
-web_url = 'https://ncurl.github.io/ncurl-web/instants/'
+from pygments import highlight
+from pygments.lexers.javascript import JavascriptLexer
+from pygments.lexers.shell import BashLexer
+from pygments.formatters.terminal import TerminalFormatter
 
 
 def do_curl():
     command = ['curl'] + sys.argv[1:]
-    context = curl_command_to_context(command)
-    response = request_by_context(context)
-    print_response(response)
 
-    result = requests.post(f'{server_url}/instants', json={
-        "commands": command,
-        "response": response.content.decode('utf-8')
-    })
-    print(f'View and share in: {web_url}?id=/{result.content.decode("utf-8")}')
+    process = subprocess.Popen(command,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    headers = stdout[:stdout.index(b"{")]
+    json_data = stdout[stdout.index(b"{"):]
+    d = json.loads(json_data)
+    headers_result = highlight(headers.decode(), BashLexer(), TerminalFormatter())
+    result = highlight(json.dumps(d, indent=4), JavascriptLexer(), TerminalFormatter())
+    print(headers_result)
+    response = curl_command_to_response(command)
+    result = response.json()
+    # headers_result = highlight(json.dumps(response.headers, indent=4), BashLexer(), TerminalFormatter())
+    result = highlight(json.dumps(result, indent=4), JavascriptLexer(), TerminalFormatter())
+    # print(headers_result)
+    print(result)
 
 
 def main():
@@ -28,3 +38,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
