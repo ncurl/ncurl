@@ -6,7 +6,7 @@ setup(
     keywords=('utils', 'curl',),
     description='Next generation of curl',
     license='MIT License',
-    install_requires=['Pygments', 'uncurl', 'requests', 'setuptools'],
+    install_requires=['Pygments', 'requests', 'setuptools'],
     include_package_data=True,
     zip_safe=True,
     author='bohan',

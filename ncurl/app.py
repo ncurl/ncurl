@@ -1,7 +1,6 @@
-import shlex
-import subprocess
 #!/usr/bin/env python
 
+import subprocess
 import json
 import sys
 
@@ -24,11 +23,6 @@ def do_curl():
     headers_result = highlight(headers.decode(), BashLexer(), TerminalFormatter())
     result = highlight(json.dumps(d, indent=4), JavascriptLexer(), TerminalFormatter())
     print(headers_result)
-    response = curl_command_to_response(command)
-    result = response.json()
-    # headers_result = highlight(json.dumps(response.headers, indent=4), BashLexer(), TerminalFormatter())
-    result = highlight(json.dumps(result, indent=4), JavascriptLexer(), TerminalFormatter())
-    # print(headers_result)
     print(result)
 
 
