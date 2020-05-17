@@ -11,7 +11,7 @@ web_url = 'https://ncurl.github.io/ncurl-web/instants/'
 
 
 def do_curl():
-    command = ['curl'] + sys.argv[1:]
+    command = ['curl', '-s'] + sys.argv[1:]
 
     process = subprocess.Popen(command,
                                stdout=subprocess.PIPE,

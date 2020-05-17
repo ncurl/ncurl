@@ -49,11 +49,11 @@ class CurlUtils(object):
                 break
 
         for index, line in enumerate(lines):
-            if re.match(r"^<$", line):
+            if re.match(r"^<$", line.strip()):
                 header_content = '\n'.join(lines[:index])
                 self.contents.append(OutputContent(BashLexer(), header_content))
                 for sub_index, sub_line in enumerate(lines[index:], start=index):
-                    if re.match("^\* Connection", sub_line):
+                    if re.match("^\* Connection", sub_line.strip()):
                         body_content = '\n'.join(lines[index + 1: sub_index])
                         self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
                         tail_content = '\n'.join(lines[sub_index:])
@@ -63,7 +63,7 @@ class CurlUtils(object):
 
     def parse_output(self):
         output = self._output
-        if self.include:
+        if self.include and not self.verbose:
             lines = output.splitlines()
             for index, line in enumerate(lines):
                 if line.strip() == '':
