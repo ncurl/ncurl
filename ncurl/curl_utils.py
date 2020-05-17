@@ -29,8 +29,9 @@ class CurlUtils(object):
     include: bool = False
     verbose: bool = False
 
-    def __init__(self, command: List[str], output: str):
+    def __init__(self, command: List[str], output: str, stderr: str = ''):
         self._output = output
+        self._stderr = stderr
         self._command = command
         self.command_line_args_parse()
         self.parse_output()
@@ -41,7 +42,12 @@ class CurlUtils(object):
         self.verbose = '-v' in command or '--verbose' in command
 
     def _verbose_parse_output(self):
-        lines = self._output.splitlines()
+        lines = self._stderr.splitlines()
+        for index, line in enumerate(lines):
+            if re.match(r"^{ \[\d+ bytes data\]", line):
+                lines = lines[:index] + self._output.splitlines() + lines[index+1:]
+                break
+
         for index, line in enumerate(lines):
             if re.match(r"^<$", line):
                 header_content = '\n'.join(lines[:index])

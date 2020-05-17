@@ -4,7 +4,7 @@ import subprocess
 import sys
 import requests
 
-from ncurl.curl_utils import CurlUtils
+from .curl_utils import CurlUtils
 
 server_url = 'https://ncurl-server.herokuapp.com/api'
 web_url = 'https://ncurl.github.io/ncurl-web/instants/'
@@ -17,7 +17,7 @@ def do_curl():
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    curl_utils = CurlUtils(command=command, output=stdout.decode('utf-8'))
+    curl_utils = CurlUtils(command=command, output=stdout.decode('utf-8'), stderr=stderr.decode('utf-8'))
     curl_utils.highlight()
 
     upload_contents = list(map(lambda content: dict(content=content.content, highlightName=content.lexer.name.lower()),

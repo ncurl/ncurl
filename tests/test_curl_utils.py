@@ -117,7 +117,18 @@ class TestCurlUtils(unittest.TestCase):
         """
         :return:
         """
-        output = """Note: Unnecessary use of -X or --request, GET is already inferred.
+        output = """{
+  "args": {},
+  "headers": {
+    "Accept": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.64.1",
+    "X-Amzn-Trace-Id": "Root=1-5ec0df6f-aea7952b9cfd49660222e4e3"
+  },
+  "origin": "103.90.76.242",
+  "url": "http://httpbin.org/get"
+}"""
+        stderr = """Note: Unnecessary use of -X or --request, GET is already inferred.
 *   Trying 35.170.216.115...
 * TCP_NODELAY set
 * Connected to httpbin.org (35.170.216.115) port 80 (#0)
@@ -135,20 +146,11 @@ class TestCurlUtils(unittest.TestCase):
 < Access-Control-Allow-Origin: *
 < Access-Control-Allow-Credentials: true
 <
-{
-  "args": {},
-  "headers": {
-    "Accept": "application/json",
-    "Host": "httpbin.org",
-    "User-Agent": "curl/7.64.1",
-    "X-Amzn-Trace-Id": "Root=1-5ec0df6f-aea7952b9cfd49660222e4e3"
-  },
-  "origin": "103.90.76.242",
-  "url": "http://httpbin.org/get"
-}
+{ [268 bytes data]
 * Connection #0 to host httpbin.org left intact
 * Closing connection 0"""
         command = ["curl", "-v", "-X", "GET", "http://httpbin.org/get", "-H" "accept: application/json"]
-        utils = CurlUtils(command, output)
-        lexer = utils.get_lexer()
+        utils = CurlUtils(command, output, stderr=stderr)
+        lexer = utils.get_lexer(output)
         self.assertTrue(isinstance(lexer, JsonLexer))
+        utils.highlight()
