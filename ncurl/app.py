@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 import subprocess
-import json
 import sys
+import requests
 
-from pygments import highlight
-from pygments.lexers.javascript import JavascriptLexer
-from pygments.lexers.shell import BashLexer
-from pygments.formatters.terminal import TerminalFormatter
+from ncurl.curl_utils import CurlUtils
+
+server_url = 'https://ncurl-server.herokuapp.com/api'
+web_url = 'https://ncurl.github.io/ncurl-web/instants/'
 
 
 def do_curl():
@@ -17,13 +17,17 @@ def do_curl():
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
-    headers = stdout[:stdout.index(b"{")]
-    json_data = stdout[stdout.index(b"{"):]
-    d = json.loads(json_data)
-    headers_result = highlight(headers.decode(), BashLexer(), TerminalFormatter())
-    result = highlight(json.dumps(d, indent=4), JavascriptLexer(), TerminalFormatter())
-    print(headers_result)
-    print(result)
+    curl_utils = CurlUtils(command=command, output=stdout.decode('utf-8'))
+    curl_utils.highlight()
+
+    upload_contents = list(map(lambda content: dict(content=content.content, highlightName=content.lexer.name.lower()),
+                               curl_utils.contents))
+    result = requests.post(f'{server_url}/instants', json={
+        "commands": command,
+        "contents": upload_contents
+    })
+    union_id = result.content.decode("utf-8")
+    print(f'View and share in: {web_url}?id=/{union_id}')
 
 
 def main():
