@@ -23,7 +23,7 @@ def do_curl():
     upload_contents = list(map(lambda content: dict(content=content.content, highlightName=content.lexer.name.lower()),
                                curl_utils.contents))
     result = requests.post(f'{server_url}/instants', json={
-        "commands": command,
+        "commands": ['curl'] + sys.argv[1:],
         "contents": upload_contents
     })
     union_id = result.content.decode("utf-8")
