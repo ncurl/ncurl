@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ncurl',
-    version='0.6.3',
+    version='0.6.4',
     keywords=('utils', 'curl',),
     description='Next generation of curl',
     license='MIT License',
