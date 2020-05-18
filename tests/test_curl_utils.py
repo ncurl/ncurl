@@ -33,7 +33,7 @@ class TestCurlUtils(unittest.TestCase):
 }"""
         command = ["curl", "-X", "GET", "http://httpbin.org/get", "-H", "accept: application/json"]
         utils = CurlUtils(command, output)
-        lexer = utils.get_lexer()
+        lexer = utils.get_lexer(output)
         self.assertTrue(isinstance(lexer, JsonLexer))
 
     def test_html_content(self):
@@ -87,7 +87,7 @@ class TestCurlUtils(unittest.TestCase):
 </html>"""
         command = ["curl", "http://example.com/"]
         utils = CurlUtils(command, output)
-        lexer = utils.get_lexer()
+        lexer = utils.get_lexer(utils.contents[0].content)
         self.assertTrue(isinstance(lexer, XmlLexer))
 
     def test_include(self):
@@ -117,8 +117,7 @@ class TestCurlUtils(unittest.TestCase):
     }"""
         command = ["curl", "-i", "-X", "GET", "http://httpbin.org/get", "-H" "accept: application/json"]
         utils = CurlUtils(command, output)
-        lexer = utils.get_lexer()
-        self.assertTrue(isinstance(lexer, JsonLexer))
+        self.assertTrue(len(utils.contents) == 3)
 
     def test_verbose(self):
         """
