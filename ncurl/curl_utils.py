@@ -50,9 +50,9 @@ class CurlUtils(object):
 
         for index, line in enumerate(lines):
             if re.match(r"^<$", line.strip()):
-                header_content = '\n'.join(lines[:index])
+                header_content = '\n'.join(lines[:index+1])
                 self.contents.append(OutputContent(BashLexer(), header_content))
-                for sub_index, sub_line in enumerate(lines[index:], start=index):
+                for sub_index, sub_line in enumerate(lines[index+1:], start=index+1):
                     if re.match("^\* Connection .* left intact", sub_line.strip()):
                         body_content = '\n'.join(self._output.splitlines())
                         self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
@@ -91,4 +91,4 @@ class CurlUtils(object):
 
     def highlight(self):
         for content in self.contents:
-            print(highlight(content.content, content.lexer, TerminalFormatter()))
+            print(highlight(content.content, content.lexer, TerminalFormatter()), sep=' ', end='')

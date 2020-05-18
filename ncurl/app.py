@@ -27,7 +27,7 @@ def do_curl():
         "contents": upload_contents
     })
     union_id = result.content.decode("utf-8")
-    print(f'View and share in: {web_url}?id=/{union_id}')
+    print(f'\nView and share in: {web_url}?id=/{union_id}')
 
 
 def main():
