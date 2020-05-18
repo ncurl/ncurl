@@ -42,19 +42,19 @@ class CurlUtils(object):
         self.verbose = '-v' in command or '--verbose' in command
 
     def _verbose_parse_output(self):
-        lines = self._stderr.splitlines()
-        for index, line in enumerate(lines):
-            if re.match(r"^{ \[\d+ bytes data\]", line):
-                lines = lines[:index] + self._output.splitlines() + lines[index+1:]
-                break
+        stderr_lines = self._stderr.splitlines()
+        lines = []
+        for index, line in enumerate(stderr_lines):
+            if not re.match(r"^{|} \[\d+ bytes data\]", line):
+                lines.append(line)
 
         for index, line in enumerate(lines):
             if re.match(r"^<$", line.strip()):
                 header_content = '\n'.join(lines[:index])
                 self.contents.append(OutputContent(BashLexer(), header_content))
                 for sub_index, sub_line in enumerate(lines[index:], start=index):
-                    if re.match("^\* Connection", sub_line.strip()):
-                        body_content = '\n'.join(lines[index + 1: sub_index])
+                    if re.match("^\* Connection .* left intact", sub_line.strip()):
+                        body_content = '\n'.join(self._output.splitlines())
                         self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
                         tail_content = '\n'.join(lines[sub_index:])
                         self.contents.append(OutputContent(BashLexer(), tail_content))

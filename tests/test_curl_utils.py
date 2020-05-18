@@ -1,4 +1,5 @@
 import unittest
+import re
 
 from pygments.lexers.data import JsonLexer
 from pygments.lexers.html import XmlLexer
@@ -7,6 +8,12 @@ from ncurl.curl_utils import CurlUtils
 
 
 class TestCurlUtils(unittest.TestCase):
+
+    def test_regex(self):
+        line = "{ [1 bytes data]"
+        if not re.match(r"^{ \[\d+ bytes data\]", line):
+            print("match")
+
 
     def test_json_content(self):
         """
