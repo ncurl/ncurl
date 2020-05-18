@@ -91,4 +91,7 @@ class CurlUtils(object):
 
     def highlight(self):
         for content in self.contents:
-            print(highlight(content.content, content.lexer, TerminalFormatter()), sep=' ', end='')
+            text = content.content
+            if isinstance(content.lexer, JsonLexer):
+                text = json.dumps(json.loads(text), ensure_ascii=False, indent=4)
+            print(highlight(text, content.lexer, TerminalFormatter()), sep=' ', end='')
