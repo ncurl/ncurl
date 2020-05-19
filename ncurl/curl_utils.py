@@ -62,24 +62,33 @@ class CurlUtils(object):
                         tail_content = '\n'.join(lines[sub_index:])
                         self.contents.append(OutputContent(BashLexer(), tail_content))
                         break
+                return
+
+        self.contents.append(OutputContent(BashLexer(), self._stderr))
+        body_content = '\n'.join(self._output.splitlines())
+        self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
+
+    def _include_parse_output(self):
+        self.contents.append(OutputContent(BashLexer(), self._stderr))
+        lines = self._output.splitlines()
+        for index, line in enumerate(lines):
+            if line.strip() == '':
+                header_content = '\n'.join(lines[:index])
+                self.contents.append(OutputContent(BashLexer(), header_content))
+                body_content = '\n'.join(lines[index + 1:])
+                self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
                 break
 
-    def parse_output(self):
-        output = self._output
-        if self.include and not self.verbose:
-            lines = output.splitlines()
-            for index, line in enumerate(lines):
-                if line.strip() == '':
-                    header_content = '\n'.join(lines[:index])
-                    self.contents.append(OutputContent(BashLexer(), header_content))
-                    body_content = '\n'.join(lines[index + 1:])
-                    self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
-                    break
 
+    def parse_output(self):
+        if self.include and not self.verbose:
+            self._include_parse_output()
         if self.verbose:
             self._verbose_parse_output()
-
         if not self.include and not self.verbose:
+            output = self._output
+            stderr = self._stderr
+            self.contents.append(OutputContent(BashLexer(), stderr))
             self.contents.append(OutputContent(self.get_lexer(output), output))
 
 
