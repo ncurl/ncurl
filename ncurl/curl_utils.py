@@ -69,7 +69,8 @@ class CurlUtils(object):
         self.contents.append(OutputContent(self.get_lexer(body_content), body_content))
 
     def _include_parse_output(self):
-        self.contents.append(OutputContent(BashLexer(), self._stderr))
+        if self._stderr.strip() != '':
+            self.contents.append(OutputContent(BashLexer(), self._stderr))
         lines = self._output.splitlines()
         for index, line in enumerate(lines):
             if line.strip() == '':

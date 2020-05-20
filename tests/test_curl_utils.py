@@ -97,28 +97,29 @@ class TestCurlUtils(unittest.TestCase):
         :return:
         """
         output = """HTTP/1.1 200 OK
-    Date: Sun, 17 May 2020 06:34:10 GMT
-    Content-Type: application/json
-    Content-Length: 267
-    Connection: keep-alive
-    Server: gunicorn/19.9.0
-    Access-Control-Allow-Origin: *
-    Access-Control-Allow-Credentials: true
+Date: Sun, 17 May 2020 06:34:10 GMT
+Content-Type: application/json
+Content-Length: 267
+Connection: keep-alive
+Server: gunicorn/19.9.0
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
 
-    {
-      "args": {},
-      "headers": {
-        "Accept": "application/json",
-        "Host": "httpbin.org",
-        "User-Agent": "curl/7.64.1",
-        "X-Amzn-Trace-Id": "Root=1-5ec0dae2-767fbad5b9437e9dd8fd1529"
-      },
-      "origin": "103.90.76.242",
-      "url": "http://httpbin.org/get"
-    }"""
+{
+  "args": {},
+  "headers": {
+    "Accept": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.64.1",
+    "X-Amzn-Trace-Id": "Root=1-5ec0dae2-767fbad5b9437e9dd8fd1529"
+  },
+  "origin": "103.90.76.242",
+  "url": "http://httpbin.org/get"
+}"""
         command = ["curl", "-i", "-X", "GET", "http://httpbin.org/get", "-H" "accept: application/json"]
         utils = CurlUtils(command, output)
-        print(utils.contents)
+        for content in utils.contents:
+            print(content.content)
         self.assertTrue(len(utils.contents) == 3)
 
     def test_verbose(self):
