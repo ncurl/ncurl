@@ -118,8 +118,10 @@ Access-Control-Allow-Credentials: true
 }"""
         command = ["curl", "-i", "-X", "GET", "http://httpbin.org/get", "-H" "accept: application/json"]
         utils = CurlUtils(command, output)
+        print("---------------------------------")
         for content in utils.contents:
             print(content.content)
+        print("---------------------------------")
         self.assertTrue(len(utils.contents) == 3)
 
     def test_verbose(self):
