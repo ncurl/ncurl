@@ -31,7 +31,7 @@ class OutputContent(object):
 
 
 class CurlUtils(object):
-    contents: List[OutputContent] = []
+    contents: List[OutputContent] = None
     include: bool = False
     verbose: bool = False
 
@@ -39,6 +39,7 @@ class CurlUtils(object):
         self._output = output
         self._stderr = stderr
         self._command = command
+        self.contents = []
         self.command_line_args_parse()
         self.parse_output()
 
