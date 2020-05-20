@@ -118,7 +118,7 @@ class TestCurlUtils(unittest.TestCase):
     }"""
         command = ["curl", "-i", "-X", "GET", "http://httpbin.org/get", "-H" "accept: application/json"]
         utils = CurlUtils(command, output)
-        print(len(utils.contents))
+        print(utils.contents)
         self.assertTrue(len(utils.contents) == 3)
 
     def test_verbose(self):
