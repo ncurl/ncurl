@@ -26,6 +26,9 @@ class OutputContent(object):
     def __str__(self) -> str:
         return f"content: {self.content}, lexer: {self.lexer}"
 
+    def __repr__(self) -> str:
+        return self.__str__()
+
 
 class CurlUtils(object):
     contents: List[OutputContent] = []

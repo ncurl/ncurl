@@ -2,12 +2,14 @@
 
 import subprocess
 import sys
+import shlex
+
 import requests
 
 from .curl_utils import CurlUtils
 
-server_url = 'https://ncurl-server.herokuapp.com/api'
-web_url = 'https://ncurl.github.io/ncurl-web/instants/'
+server_url = 'https://api.ncurl.sh/api'
+web_url = 'https://ncurl.sh/instants/'
 
 
 def do_curl():
@@ -23,7 +25,7 @@ def do_curl():
     upload_contents = list(map(lambda content: dict(content=content.content, highlightName=content.lexer.name.lower()),
                                curl_utils.contents))
     result = requests.post(f'{server_url}/instants', json={
-        "commands": ['curl'] + sys.argv[1:],
+        "commands": shlex.join(['curl'] + sys.argv[1:]),
         "contents": upload_contents
     })
     union_id = result.content.decode("utf-8")
