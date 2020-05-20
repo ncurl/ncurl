@@ -1,4 +1,9 @@
-# NB cURL
+# NcURL - Next generation of cURL
+
+Fully compatible with cURL. And with JSON support, syntax highlight, easy to share with others.
+
+![Travis (.com)](https://img.shields.io/travis/com/ncurl/ncurl)
+![PyPI](https://img.shields.io/pypi/v/ncurl)
 
 ## Install
 
@@ -17,10 +22,10 @@ $ pip install ncurl
 
 ## Usage
 
-Support all curl options, just change `curl` to `ncurl`
+Fully compatible with cURL, support all curl options, just change `curl` to `ncurl`
 
 ```
-$ ncurl -X POST "http://httpbin.org/post" -H "accept: application/json"
+$ ncurl -i -X POST http://httpbin.org/post -H "accept: application/json"
 HTTP 200 OK
 Date: Tue, 28 Apr 2020 10:44:29 GMT
 Content-Type: application/json
@@ -47,13 +52,4 @@ Access-Control-Allow-Credentials: true
     "origin": "124.126.18.162",
     "url": "http://httpbin.org/post"
 }
-```
-
-## How to deploy
-
-```shell script
-$ pip install wheel twine
-$ rm -rf dist/
-$ python setup.py sdist bdist_wheel
-$ twine upload dist/*
 ```

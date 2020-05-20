@@ -87,7 +87,8 @@ class TestCurlUtils(unittest.TestCase):
 </html>"""
         command = ["curl", "http://example.com/"]
         utils = CurlUtils(command, output)
-        lexer = utils.get_lexer(utils.contents[0].content)
+        self.assertTrue(len(utils.contents) == 2)
+        lexer = utils.get_lexer(utils.contents[1].content)
         self.assertTrue(isinstance(lexer, XmlLexer))
 
     def test_include(self):
