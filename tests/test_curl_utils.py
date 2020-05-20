@@ -121,7 +121,7 @@ Access-Control-Allow-Credentials: true
         print("---------------------------------")
         print(utils.contents)
         print("---------------------------------")
-        self.assertTrue(len(utils.contents) == 3)
+        self.assertEqual(len(utils.contents), 2)
 
     def test_verbose(self):
         """
