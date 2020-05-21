@@ -4,6 +4,7 @@ Fully compatible with cURL. And with JSON support, syntax highlight, easy to sha
 
 ![Travis (.com)](https://img.shields.io/travis/com/ncurl/ncurl)
 ![PyPI](https://img.shields.io/pypi/v/ncurl)
+[![Maintenance Status][maintenance-image]](#maintenance-status)
 
 ## Install
 
@@ -53,3 +54,13 @@ Access-Control-Allow-Credentials: true
     "url": "http://httpbin.org/post"
 }
 ```
+
+## LICENSE
+
+MIT
+
+## Maintenance Status
+
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
+
+[maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg
