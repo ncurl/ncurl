@@ -6,6 +6,8 @@ Fully compatible with cURL. And with JSON support, syntax highlight, easy to sha
 ![PyPI](https://img.shields.io/pypi/v/ncurl)
 [![Maintenance Status][maintenance-image]](#maintenance-status)
 
+![](./resources/preview.png)
+
 ## Install
 
 ### Mac
