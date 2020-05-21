@@ -7,7 +7,7 @@ import shlex
 import requests
 
 from ncurl.utils import join
-from .curl_utils import CurlUtils
+from ncurl.curl_utils import CurlUtils
 
 server_url = 'https://api.ncurl.sh/api'
 web_url = 'https://ncurl.sh/instants/'
