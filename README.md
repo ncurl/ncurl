@@ -27,15 +27,14 @@ Fully compatible with cURL, support all curl options, just change `curl` to `ncu
 
 ```
 $ ncurl -i -X POST http://httpbin.org/post -H "accept: application/json"
-HTTP 200 OK
-Date: Tue, 28 Apr 2020 10:44:29 GMT
+HTTP/1.1 200 OK
+Date: Thu, 21 May 2020 03:42:47 GMT
 Content-Type: application/json
-Content-Length: 412
+Content-Length: 332
 Connection: keep-alive
 Server: gunicorn/19.9.0
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Credentials: true
-
 {
     "args": {},
     "data": "",
@@ -43,16 +42,16 @@ Access-Control-Allow-Credentials: true
     "form": {},
     "headers": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate",
-        "Content-Length": "0",
         "Host": "httpbin.org",
-        "User-Agent": "python-requests/2.23.0",
-        "X-Amzn-Trace-Id": "Root=1-5ea8090d-7f133020f65ad4709c281960"
+        "User-Agent": "curl/7.64.1",
+        "X-Amzn-Trace-Id": "Root=1-5ec5f8b7-7fd4fd30651bab20b5be86b0"
     },
     "json": null,
     "origin": "124.126.18.162",
     "url": "http://httpbin.org/post"
 }
+
+View and share in: https://ncurl.sh/instants/?id=/rZAGCMGcKP
 ```
 
 ## LICENSE
