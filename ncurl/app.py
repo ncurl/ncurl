@@ -2,18 +2,15 @@
 
 import subprocess
 import sys
-import shlex
-
 import requests
+import colorama
 
+from ncurl.conf import load_or_init_config, Config
 from ncurl.utils import join
 from ncurl.curl_utils import CurlUtils
 
-server_url = 'https://api.ncurl.sh/api'
-web_url = 'https://ncurl.sh/instants/'
 
-
-def do_curl():
+def do_curl(config: Config):
     command = ['curl', '-sS'] + sys.argv[1:]
 
     process = subprocess.Popen(command,
@@ -23,22 +20,28 @@ def do_curl():
     curl_utils = CurlUtils(command=command, output=stdout.decode('utf-8'), stderr=stderr.decode('utf-8'))
     curl_utils.highlight()
 
+    if not config.isUpload:
+        return
+
     upload_contents = list(map(lambda content: dict(content=content.content, highlightName=content.lexer.name.lower()),
                                curl_utils.contents))
-    result = requests.post(f'{server_url}/instants', json={
+    result = requests.post(f'{config.server_url}/instants', json={
         "commands": join(['curl'] + sys.argv[1:]),
-        "contents": upload_contents
+        "contents": upload_contents,
+        "expire": config.expiredAt
     })
-    response_str = result.content.decode("utf-8")
+    response = result.json()
+    colorama.init()
     if result.status_code == 200:
-        print(f'\nView and share in: {web_url}?id=/{response_str}')
+        print(f'\n {colorama.Fore.GREEN}View and share in: {response.get("webUrl")}')
     else:
-        print(f'Failed upload to server: {response_str}')
+        print(f'\n {colorama.Fore.RED}Failed upload to server: {response.content.decode("utf-8")}')
         sys.exit(1)
 
 
 def main():
-    do_curl()
+    config = load_or_init_config()
+    do_curl(config)
 
 
 if __name__ == '__main__':
