@@ -1,8 +1,6 @@
-# NcURL - Next generation of cURL
+# NcURL - 下一代cURL
 
-[中文文档](./README_cn.md)
-
-Fully compatible with cURL. And with JSON support, syntax highlight, easy to share with others.
+完全兼容cURL、JSON格式支持、语法高亮展示并方便在线查看和分享
 
 ![Travis (.com)](https://img.shields.io/travis/com/ncurl/ncurl)
 ![PyPI](https://img.shields.io/pypi/v/ncurl)
@@ -10,7 +8,7 @@ Fully compatible with cURL. And with JSON support, syntax highlight, easy to sha
 
 ![](./resources/preview.png)
 
-## Install
+## 安装
 
 ### Mac
 
@@ -19,15 +17,15 @@ $ brew tap ncurl/ncurl
 $ brew install ncurl
 ```
 
-### by PYPI
+### 通过 PYPI
 
 ```shell
 $ pip install ncurl
 ```
 
-## Usage
+## 使用
 
-Fully compatible with cURL, support all curl options, just change `curl` to `ncurl`
+跟cURL使用完全一样，你需要做的就是把 `curl` 替换成 `ncurl`
 
 ```
 $ ncurl -i -X POST http://httpbin.org/post -H "accept: application/json"
@@ -58,12 +56,12 @@ Access-Control-Allow-Credentials: true
 View and share in: https://ncurl.sh/instants/?id=/rZAGCMGcKP
 ```
 
-## LICENSE
+## 许可
 
 MIT
 
-## Maintenance Status
+## 维护状态
 
-**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
+**Active:** 欢迎提交BUG、MR
 
 [maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg

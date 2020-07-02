@@ -5,7 +5,7 @@ import json
 Config = namedtuple('Config', ['server_url', 'expiredAt', 'isUpload'])
 _default_config = Config(
     server_url='https://api.ncurl.sh/api',
-    expiredAt=1800,  # default expired at half hour
+    expiredAt=3600 * 6,  # default expired at six hour
     isUpload=True
 )
 
